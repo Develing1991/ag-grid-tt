@@ -1,22 +1,77 @@
 "use client";
-
+import {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+  Component,
+} from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 
-import { useState, useRef, useEffect, useMemo } from "react";
+const SimpleComp1 = (p) => {
+  console.log(p);
+  const onDollar = useCallback(() => window.alert("Dollar " + p.value));
+  return (
+    <div>
+      <button onClick={onDollar}>$</button>
+      Hello World - {p.value}
+    </div>
+  );
+};
+const SimpleComp2 = (p) => {
+  const onAt = useCallback(() => window.alert("At " + p.value));
+  return (
+    <div>
+      <button onClick={onAt}>{p.buttonText}</button>
+      {p.value}
+    </div>
+  );
+};
+
+class ClassComp extends Component {
+  render() {
+    return (
+      <div>
+        <button onClick={() => window.alert("At " + this.props.value)}>
+          ClassComp
+        </button>
+        {this.props.value}
+      </div>
+    );
+  }
+}
 
 function Page() {
-  const gridRef = useRef();
   const [rowData, setRowData] = useState();
+
+  const gridRef = useRef();
   const [columnDefs, setColumnDefs] = useState([
-    { field: "athlete" },
-    { field: "age" },
-    { field: "country" },
-    { field: "year" },
-    { field: "date" },
+    { field: "athlete", cellRenderer: SimpleComp1 },
+    { field: "age", cellRenderer: (p) => <b>{p.value}</b> },
+    {
+      field: "country",
+      cellRenderer: SimpleComp2,
+      cellRendererParams: {
+        buttonText: "=",
+      },
+    },
+    {
+      field: "year",
+      cellRendererSelector: (p) => {
+        if (p.value == 2000) {
+          return { component: SimpleComp1 };
+        }
+        if (p.value == 2004) {
+          return { component: SimpleComp2, params: { buttonText: "!!" } };
+        }
+      },
+    },
+    { field: "date", cellRenderer: ClassComp },
     { field: "sport" },
-    { field: "gold" },
+    { field: "gold", cellRenderer: null },
     { field: "silver" },
     { field: "bronze" },
     { field: "total" },
@@ -25,6 +80,7 @@ function Page() {
     () => ({
       sortable: true,
       filter: true,
+      // cellRenderer: SimpleComp1,
     }),
     []
   );
@@ -36,7 +92,7 @@ function Page() {
   }, []);
 
   return (
-    <div className="ag-theme-alpine" style={{ height: "100%" }}>
+    <div className="ag-theme-alpine" style={{ width: "100%", height: 500 }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}

@@ -18,24 +18,8 @@ export default function RootLayout({ children }) {
             <li>
               <Link href="001-quickstart-guide">001-quickstart-guide</Link>
             </li>
-            <li style={{ listStyle: "none" }}>
-              <ul>
-                <li>
-                  <Link href="001-quickstart-guide">
-                    003-customizing-cells/simple-renderer
-                  </Link>
-                </li>
-                <li>
-                  <Link href="001-quickstart-guide">
-                    003-customizing-cells/cellRenderer
-                  </Link>
-                </li>
-                <li>
-                  <Link href="001-quickstart-guide">
-                    003-customizing-cells/cellRenderer
-                  </Link>
-                </li>
-              </ul>
+            <li>
+              <Link href="003-customizing-cells">003-customizing-cells</Link>
             </li>
           </ul>
         </header>
