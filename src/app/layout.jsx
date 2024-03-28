@@ -21,6 +21,12 @@ export default function RootLayout({ children }) {
             <li>
               <Link href="003-customizing-cells">003-customizing-cells</Link>
             </li>
+            <li>
+              <Link href="004-react-rendering">004-react-rendering</Link>
+            </li>
+            <li>
+              <Link href="005-react-filters">005-react-filters</Link>
+            </li>
           </ul>
         </header>
         {children}

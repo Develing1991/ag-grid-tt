@@ -1,8 +1,8 @@
 "use client";
-
+// avoid wasted renderings
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 
 import { useState, useRef, useEffect, useMemo } from "react";
 
@@ -36,7 +36,7 @@ function Page() {
   }, []);
 
   return (
-    <div className="ag-theme-alpine" style={{ height: "100%" }}>
+    <div className="ag-theme-alpine" style={{ width: "100%", height: 500 }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
